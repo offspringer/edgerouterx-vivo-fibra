@@ -1,0 +1,240 @@
+set firewall all-ping enable
+set firewall broadcast-ping disable
+set firewall group network-group IPTV description 'Based on static routes'
+set firewall group network-group IPTV network 172.28.0.0/14
+set firewall group network-group IPTV network 201.0.52.0/23
+set firewall group network-group IPTV network 200.161.71.0/24
+set firewall group network-group IPTV network 177.16.0.0/16
+set firewall ipv6-name WANv6_IN default-action drop
+set firewall ipv6-name WANv6_IN description 'WAN inbound traffic forwarded to LAN'
+set firewall ipv6-name WANv6_IN enable-default-log
+set firewall ipv6-name WANv6_IN rule 10 action accept
+set firewall ipv6-name WANv6_IN rule 10 description 'Allow established/related sessions'
+set firewall ipv6-name WANv6_IN rule 10 state established enable
+set firewall ipv6-name WANv6_IN rule 10 state related enable
+set firewall ipv6-name WANv6_IN rule 20 action drop
+set firewall ipv6-name WANv6_IN rule 20 description 'Drop invalid state'
+set firewall ipv6-name WANv6_IN rule 20 state invalid enable
+set firewall ipv6-name WANv6_LOCAL default-action drop
+set firewall ipv6-name WANv6_LOCAL description 'WAN inbound traffic to the router'
+set firewall ipv6-name WANv6_LOCAL enable-default-log
+set firewall ipv6-name WANv6_LOCAL rule 10 action accept
+set firewall ipv6-name WANv6_LOCAL rule 10 description 'Allow established/related sessions'
+set firewall ipv6-name WANv6_LOCAL rule 10 state established enable
+set firewall ipv6-name WANv6_LOCAL rule 10 state related enable
+set firewall ipv6-name WANv6_LOCAL rule 20 action drop
+set firewall ipv6-name WANv6_LOCAL rule 20 description 'Drop invalid state'
+set firewall ipv6-name WANv6_LOCAL rule 20 state invalid enable
+set firewall ipv6-name WANv6_LOCAL rule 30 action accept
+set firewall ipv6-name WANv6_LOCAL rule 30 description 'Allow IPv6 icmp'
+set firewall ipv6-name WANv6_LOCAL rule 30 protocol ipv6-icmp
+set firewall ipv6-name WANv6_LOCAL rule 40 action accept
+set firewall ipv6-name WANv6_LOCAL rule 40 description 'allow dhcpv6'
+set firewall ipv6-name WANv6_LOCAL rule 40 destination port 546
+set firewall ipv6-name WANv6_LOCAL rule 40 protocol udp
+set firewall ipv6-name WANv6_LOCAL rule 40 source port 547
+set firewall ipv6-receive-redirects disable
+set firewall ipv6-src-route disable
+set firewall ip-src-route disable
+set firewall log-martians enable
+set firewall name WAN_IN default-action drop
+set firewall name WAN_IN description 'WAN to internal'
+set firewall name WAN_IN rule 10 action accept
+set firewall name WAN_IN rule 10 description 'Allow IPTV Multicast UDP'
+set firewall name WAN_IN rule 10 destination address 239.0.0.0/8
+set firewall name WAN_IN rule 10 log disable
+set firewall name WAN_IN rule 10 protocol udp
+set firewall name WAN_IN rule 10 source group network-group IPTV
+set firewall name WAN_IN rule 20 action accept
+set firewall name WAN_IN rule 20 description 'Allow IGMP'
+set firewall name WAN_IN rule 20 log disable
+set firewall name WAN_IN rule 20 protocol igmp
+set firewall name WAN_IN rule 30 action accept
+set firewall name WAN_IN rule 30 description 'Allow established/related'
+set firewall name WAN_IN rule 30 state established enable
+set firewall name WAN_IN rule 30 state related enable
+set firewall name WAN_IN rule 40 action drop
+set firewall name WAN_IN rule 40 description 'Drop invalid state'
+set firewall name WAN_IN rule 40 state invalid enable
+set firewall name WAN_LOCAL default-action drop
+set firewall name WAN_LOCAL description 'WAN to router'
+set firewall name WAN_LOCAL rule 10 action accept
+set firewall name WAN_LOCAL rule 10 description 'Allow IPTV Multicast UDP'
+set firewall name WAN_LOCAL rule 10 destination address 239.0.0.0/8
+set firewall name WAN_LOCAL rule 10 log disable
+set firewall name WAN_LOCAL rule 10 protocol udp
+set firewall name WAN_LOCAL rule 10 source group network-group IPTV
+set firewall name WAN_LOCAL rule 20 action accept
+set firewall name WAN_LOCAL rule 20 description 'Allow IGMP'
+set firewall name WAN_LOCAL rule 20 log disable
+set firewall name WAN_LOCAL rule 20 protocol igmp
+set firewall name WAN_LOCAL rule 30 action accept
+set firewall name WAN_LOCAL rule 30 description 'Allow ICMP'
+set firewall name WAN_LOCAL rule 30 log disable
+set firewall name WAN_LOCAL rule 30 protocol icmp
+set firewall name WAN_LOCAL rule 50 action accept
+set firewall name WAN_LOCAL rule 50 description 'Allow established/related'
+set firewall name WAN_LOCAL rule 50 state established enable
+set firewall name WAN_LOCAL rule 50 state related enable
+set firewall name WAN_LOCAL rule 60 action drop
+set firewall name WAN_LOCAL rule 60 description 'Drop invalid state'
+set firewall name WAN_LOCAL rule 60 state invalid enable
+set firewall options mss-clamp mss 1412
+set firewall receive-redirects disable
+set firewall send-redirects enable
+set firewall source-validation disable
+set firewall syn-cookies enable
+set interfaces ethernet eth0 description WAN
+set interfaces ethernet eth0 duplex auto
+set interfaces ethernet eth0 speed auto
+set interfaces ethernet eth0 vif 10 description Internet
+set interfaces ethernet eth0 vif 10 pppoe 0 default-route auto
+set interfaces ethernet eth0 vif 10 pppoe 0 description 'Internet (PPPoE)'
+set interfaces ethernet eth0 vif 10 pppoe 0 firewall in ipv6-name WANv6_IN
+set interfaces ethernet eth0 vif 10 pppoe 0 firewall in name WAN_IN
+set interfaces ethernet eth0 vif 10 pppoe 0 firewall local ipv6-name WANv6_LOCAL
+set interfaces ethernet eth0 vif 10 pppoe 0 firewall local name WAN_LOCAL
+set interfaces ethernet eth0 vif 10 pppoe 0 mtu 1492
+set interfaces ethernet eth0 vif 10 pppoe 0 name-server auto
+set interfaces ethernet eth0 vif 10 pppoe 0 password cliente
+set interfaces ethernet eth0 vif 10 pppoe 0 user-id cliente@cliente
+set interfaces ethernet eth0 vif 20 address dhcp
+set interfaces ethernet eth0 vif 20 description IPTV
+set interfaces ethernet eth0 vif 20 firewall in name WAN_IN
+set interfaces ethernet eth0 vif 20 firewall local name WAN_LOCAL
+set interfaces ethernet eth0 vif 30 address dhcp
+set interfaces ethernet eth0 vif 30 description VoIP
+set interfaces ethernet eth0 vif 30 firewall in name WAN_IN
+set interfaces ethernet eth0 vif 30 firewall local name WAN_LOCAL
+set interfaces ethernet eth0 vif 30 mtu 1500
+set interfaces ethernet eth1 description Local
+set interfaces ethernet eth1 duplex auto
+set interfaces ethernet eth1 speed auto
+set interfaces ethernet eth2 description Local
+set interfaces ethernet eth2 duplex auto
+set interfaces ethernet eth2 speed auto
+set interfaces ethernet eth3 description Local
+set interfaces ethernet eth3 duplex auto
+set interfaces ethernet eth3 speed auto
+set interfaces ethernet eth4 description Local
+set interfaces ethernet eth4 duplex auto
+set interfaces ethernet eth4 poe output off
+set interfaces ethernet eth4 speed auto
+set interfaces loopback lo
+set interfaces switch switch0 description LAN
+set interfaces switch switch0 mtu 1500
+set interfaces switch switch0 switch-port interface eth1 vlan pvid 10
+set interfaces switch switch0 switch-port interface eth1 vlan vid 20
+set interfaces switch switch0 switch-port interface eth1 vlan vid 30
+set interfaces switch switch0 switch-port interface eth2 vlan pvid 10
+set interfaces switch switch0 switch-port interface eth2 vlan vid 20
+set interfaces switch switch0 switch-port interface eth2 vlan vid 30
+set interfaces switch switch0 switch-port interface eth3 vlan pvid 10
+set interfaces switch switch0 switch-port interface eth3 vlan vid 20
+set interfaces switch switch0 switch-port interface eth3 vlan vid 30
+set interfaces switch switch0 switch-port interface eth4 vlan pvid 20
+set interfaces switch switch0 switch-port interface eth4 vlan vid 10
+set interfaces switch switch0 switch-port interface eth4 vlan vid 30
+set interfaces switch switch0 switch-port vlan-aware enable
+set interfaces switch switch0 vif 10 address 10.10.10.1/24
+set interfaces switch switch0 vif 10 description Internet
+set interfaces switch switch0 vif 20 address 10.10.20.1/24
+set interfaces switch switch0 vif 20 description IPTV
+set interfaces switch switch0 vif 20 mtu 1500
+set interfaces switch switch0 vif 30 address 10.10.30.1/24
+set interfaces switch switch0 vif 30 description VoIP
+set interfaces switch switch0 vif 30 mtu 1500
+set protocols igmp-proxy interface eth0.20 alt-subnet 0.0.0.0/0
+set protocols igmp-proxy interface eth0.20 role upstream
+set protocols igmp-proxy interface eth0.20 threshold 1
+set protocols igmp-proxy interface eth0.30 role disabled
+set protocols igmp-proxy interface eth0.30 threshold 1
+set protocols igmp-proxy interface pppoe0 role disabled
+set protocols igmp-proxy interface pppoe0 threshold 1
+set protocols igmp-proxy interface switch0.10 role disabled
+set protocols igmp-proxy interface switch0.10 threshold 1
+set protocols igmp-proxy interface switch0.20 alt-subnet 10.10.20.0/24
+set protocols igmp-proxy interface switch0.20 role downstream
+set protocols igmp-proxy interface switch0.20 threshold 1
+set protocols igmp-proxy interface switch0.30 role disabled
+set protocols igmp-proxy interface switch0.30 threshold 1
+set protocols static interface-route 0.0.0.0/0 next-hop-interface pppoe0 description Internet
+set protocols static interface-route 0.0.0.0/0 next-hop-interface pppoe0 distance 1
+set protocols static route 10.23.240.0/23 next-hop 10.6.160.1 description VoIP
+set protocols static route 10.23.240.0/23 next-hop 10.6.160.1 distance 1
+set protocols static route 172.28.0.0/14 next-hop 10.5.160.1 description IPTV
+set protocols static route 172.28.0.0/14 next-hop 10.5.160.1 distance 1
+set protocols static route 177.16.30.0/23 next-hop 10.5.160.1 description IPTV
+set protocols static route 177.16.30.0/23 next-hop 10.5.160.1 distance 1
+set protocols static route 200.161.71.40/30 next-hop 10.5.160.1 description IPTV
+set protocols static route 200.161.71.40/30 next-hop 10.5.160.1 distance 1
+set protocols static route 200.161.71.46/31 next-hop 10.5.160.1 description IPTV
+set protocols static route 200.161.71.46/31 next-hop 10.5.160.1 distance 1
+set protocols static route 200.161.71.48/31 next-hop 10.5.160.1 description IPTV
+set protocols static route 200.161.71.48/31 next-hop 10.5.160.1 distance 1
+set protocols static route 201.0.52.0/23 next-hop 10.5.160.1 description IPTV
+set protocols static route 201.0.52.0/23 next-hop 10.5.160.1 distance 1
+set service dhcp-server disabled false
+set service dhcp-server hostfile-update enable
+set service dhcp-server shared-network-name IPTV authoritative disable
+set service dhcp-server shared-network-name IPTV subnet 10.10.20.0/24 default-router 10.10.20.1
+set service dhcp-server shared-network-name IPTV subnet 10.10.20.0/24 dns-server 177.16.30.67
+set service dhcp-server shared-network-name IPTV subnet 10.10.20.0/24 dns-server 177.16.30.7
+set service dhcp-server shared-network-name IPTV subnet 10.10.20.0/24 lease 14400
+set service dhcp-server shared-network-name IPTV subnet 10.10.20.0/24 start 10.10.20.100 stop 10.10.20.254
+set service dhcp-server shared-network-name Internet authoritative enable
+set service dhcp-server shared-network-name Internet subnet 10.10.10.0/24 default-router 10.10.10.1
+set service dhcp-server shared-network-name Internet subnet 10.10.10.0/24 dns-server 10.10.10.1
+set service dhcp-server shared-network-name Internet subnet 10.10.10.0/24 domain-name net.intra
+set service dhcp-server shared-network-name Internet subnet 10.10.10.0/24 lease 14400
+set service dhcp-server shared-network-name Internet subnet 10.10.10.0/24 start 10.10.10.100 stop 10.10.10.254
+set service dhcp-server shared-network-name VoIP authoritative disable
+set service dhcp-server shared-network-name VoIP subnet 10.10.30.0/24 default-router 10.10.30.1
+set service dhcp-server shared-network-name VoIP subnet 10.10.30.0/24 dns-server 10.10.30.1
+set service dhcp-server shared-network-name VoIP subnet 10.10.30.0/24 lease 14400
+set service dhcp-server shared-network-name VoIP subnet 10.10.30.0/24 start 10.10.30.100 stop 10.10.30.254
+set service dhcp-server static-arp disable
+set service dhcp-server use-dnsmasq disable
+set service dns forwarding cache-size 200
+set service dns forwarding listen-on switch0.10
+set service dns forwarding listen-on switch0.20
+set service dns forwarding listen-on switch0.30
+set service dns forwarding listen-on switch0
+set service dns forwarding name-server 8.8.8.8
+set service dns forwarding name-server 8.8.4.4
+set service gui http-port 80
+set service gui https-port 443
+set service gui older-ciphers enable
+set service nat rule 5010 description 'masquerade for Internet'
+set service nat rule 5010 log disable
+set service nat rule 5010 outbound-interface pppoe0
+set service nat rule 5010 protocol all
+set service nat rule 5010 type masquerade
+set service nat rule 5011 description 'masquerade for IPTV'
+set service nat rule 5011 log disable
+set service nat rule 5011 outbound-interface eth0.20
+set service nat rule 5011 protocol all
+set service nat rule 5011 type masquerade
+set service nat rule 5012 description 'masquerade for VoIP'
+set service nat rule 5012 log disable
+set service nat rule 5012 outbound-interface eth0.30
+set service nat rule 5012 protocol all
+set service nat rule 5012 type masquerade
+set service ssh port 22
+set service ssh protocol-version v2
+set service unms disable
+set system conntrack expect-table-size 2048
+set system conntrack hash-size 32768
+set system conntrack modules rtsp enable
+set system conntrack table-size 262144
+set system domain-name net.intra
+set system host-name router
+set system ip override-hostname-ip 10.10.10.1
+set system login user admin authentication plaintext-password 'admin'
+set system login user admin level admin
+set system ntp server 200.160.7.193
+set system ntp server b.st1.ntp.br
+set system ntp server pool.ntp.br
+set system syslog global facility all level notice
+set system syslog global facility protocols level debug
+set system time-zone America/Sao_Paulo
