@@ -5,7 +5,7 @@ Esta configuração foi criada com o intuito de substituir completamente o hardw
 
 ## Considerações
 * **Minimalismo**: manter a menor quantidade de equipamentos possíveis, com as menores dimensões possíveis, podendo instalá-los em caixas de distribuição de sistemas de apartamentos, por exemplo;
-* **Qualidade**: obter um ganho de qualidade ao substituir o equipamento original por um de mais confiável.
+* **Qualidade**: obter um ganho de qualidade ao substituir o equipamento original por um mais confiável.
 
 ## Estrutura da rede
 ```
