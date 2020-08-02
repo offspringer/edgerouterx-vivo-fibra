@@ -44,8 +44,8 @@ Esta configuração foi criada com o intuito de substituir completamente o hardw
 4. Decodificador IPTv conectado na porta eth4;
 
 ## Utilização
-1. Copie o arquivo `config` para dentro de seu **EdgeRouter-X** através de `ssh`
-2. Import as configurações com o comando `source config`
+1. Copie o arquivo `commands` para dentro de seu **EdgeRouter-X** através de `ssh`
+2. Import as configurações com o comando `source commands`
 3. Finalize com `commit` e `save`
 4. Reinicie o roteador
 
