@@ -41,7 +41,7 @@ Esta configuração foi criada com o intuito de substituir completamente o hardw
 1. ONT corretamente configurada e autenticada na Vivo Fibra
 2. ONT conectada na porta eth0 (WAN) do EdgeRouter-X
 3. Access Points, switches ou computadores conectados nas portas eth1, eth2 e eth3;
-4. Decodificador IPTv conectado na porta eth4;
+4. Decodificador IPTV conectado na porta eth4;
 
 ## Utilização
 1. Copie o arquivo `commands` para dentro de seu **EdgeRouter-X** através de `ssh`
