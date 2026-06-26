@@ -40,15 +40,15 @@ set firewall log-martians enable
 set firewall name WAN_IN default-action drop
 set firewall name WAN_IN description 'WAN to internal'
 set firewall name WAN_IN rule 10 action accept
-set firewall name WAN_IN rule 10 description 'Allow IPTV Multicast UDP'
-set firewall name WAN_IN rule 10 destination address 239.0.0.0/8
+set firewall name WAN_IN rule 10 description 'Allow IPTV IGMP'
 set firewall name WAN_IN rule 10 log disable
-set firewall name WAN_IN rule 10 protocol udp
-set firewall name WAN_IN rule 10 source group network-group IPTV
+set firewall name WAN_IN rule 10 protocol igmp
 set firewall name WAN_IN rule 20 action accept
-set firewall name WAN_IN rule 20 description 'Allow IGMP'
+set firewall name WAN_IN rule 20 description 'Allow IPTV Multicast UDP'
+set firewall name WAN_IN rule 20 destination address 239.0.0.0/8
 set firewall name WAN_IN rule 20 log disable
-set firewall name WAN_IN rule 20 protocol igmp
+set firewall name WAN_IN rule 20 protocol udp
+set firewall name WAN_IN rule 20 source group network-group IPTV
 set firewall name WAN_IN rule 30 action accept
 set firewall name WAN_IN rule 30 description 'Allow established/related'
 set firewall name WAN_IN rule 30 state established enable
@@ -59,19 +59,13 @@ set firewall name WAN_IN rule 40 state invalid enable
 set firewall name WAN_LOCAL default-action drop
 set firewall name WAN_LOCAL description 'WAN to router'
 set firewall name WAN_LOCAL rule 10 action accept
-set firewall name WAN_LOCAL rule 10 description 'Allow IPTV Multicast UDP'
-set firewall name WAN_LOCAL rule 10 destination address 239.0.0.0/8
+set firewall name WAN_LOCAL rule 10 description 'Allow IPTV IGMP'
 set firewall name WAN_LOCAL rule 10 log disable
-set firewall name WAN_LOCAL rule 10 protocol udp
-set firewall name WAN_LOCAL rule 10 source group network-group IPTV
+set firewall name WAN_LOCAL rule 10 protocol igmp
 set firewall name WAN_LOCAL rule 20 action accept
-set firewall name WAN_LOCAL rule 20 description 'Allow IGMP'
+set firewall name WAN_LOCAL rule 20 description 'Allow ICMP'
 set firewall name WAN_LOCAL rule 20 log disable
-set firewall name WAN_LOCAL rule 20 protocol igmp
-set firewall name WAN_LOCAL rule 30 action accept
-set firewall name WAN_LOCAL rule 30 description 'Allow ICMP'
-set firewall name WAN_LOCAL rule 30 log disable
-set firewall name WAN_LOCAL rule 30 protocol icmp
+set firewall name WAN_LOCAL rule 20 protocol icmp
 set firewall name WAN_LOCAL rule 50 action accept
 set firewall name WAN_LOCAL rule 50 description 'Allow established/related'
 set firewall name WAN_LOCAL rule 50 state established enable
@@ -146,33 +140,25 @@ set interfaces switch switch0 vif 30 mtu 1500
 set protocols igmp-proxy interface eth0.20 alt-subnet 0.0.0.0/0
 set protocols igmp-proxy interface eth0.20 role upstream
 set protocols igmp-proxy interface eth0.20 threshold 1
-set protocols igmp-proxy interface eth0.30 role disabled
-set protocols igmp-proxy interface eth0.30 threshold 1
-set protocols igmp-proxy interface pppoe0 role disabled
-set protocols igmp-proxy interface pppoe0 threshold 1
-set protocols igmp-proxy interface switch0.10 role disabled
-set protocols igmp-proxy interface switch0.10 threshold 1
 set protocols igmp-proxy interface switch0.20 alt-subnet 10.10.20.0/24
 set protocols igmp-proxy interface switch0.20 role downstream
 set protocols igmp-proxy interface switch0.20 threshold 1
-set protocols igmp-proxy interface switch0.30 role disabled
-set protocols igmp-proxy interface switch0.30 threshold 1
 set protocols static interface-route 0.0.0.0/0 next-hop-interface pppoe0 description WAN
 set protocols static interface-route 0.0.0.0/0 next-hop-interface pppoe0 distance 1
-set protocols static route 10.23.240.0/23 next-hop 10.6.160.1 description VoIP
-set protocols static route 10.23.240.0/23 next-hop 10.6.160.1 distance 1
-set protocols static route 172.28.0.0/14 next-hop 10.5.160.1 description IPTV
-set protocols static route 172.28.0.0/14 next-hop 10.5.160.1 distance 1
-set protocols static route 177.16.30.0/23 next-hop 10.5.160.1 description IPTV
-set protocols static route 177.16.30.0/23 next-hop 10.5.160.1 distance 1
-set protocols static route 200.161.71.40/30 next-hop 10.5.160.1 description IPTV
-set protocols static route 200.161.71.40/30 next-hop 10.5.160.1 distance 1
-set protocols static route 200.161.71.46/31 next-hop 10.5.160.1 description IPTV
-set protocols static route 200.161.71.46/31 next-hop 10.5.160.1 distance 1
-set protocols static route 200.161.71.48/31 next-hop 10.5.160.1 description IPTV
-set protocols static route 200.161.71.48/31 next-hop 10.5.160.1 distance 1
-set protocols static route 201.0.52.0/23 next-hop 10.5.160.1 description IPTV
-set protocols static route 201.0.52.0/23 next-hop 10.5.160.1 distance 1
+set protocols static route 10.23.240.0/23 next-hop 10.209.160.1 description VoIP
+set protocols static route 10.23.240.0/23 next-hop 10.209.160.1 distance 1
+set protocols static route 172.28.0.0/14 next-hop 10.141.128.1 description IPTV
+set protocols static route 172.28.0.0/14 next-hop 10.141.128.1 distance 1
+set protocols static route 177.16.30.0/23 next-hop 10.141.128.1 description IPTV
+set protocols static route 177.16.30.0/23 next-hop 10.141.128.1 distance 1
+set protocols static route 200.161.71.40/30 next-hop 10.141.128.1 description IPTV
+set protocols static route 200.161.71.40/30 next-hop 10.141.128.1 distance 1
+set protocols static route 200.161.71.46/31 next-hop 10.141.128.1 description IPTV
+set protocols static route 200.161.71.46/31 next-hop 10.141.128.1 distance 1
+set protocols static route 200.161.71.48/31 next-hop 10.141.128.1 description IPTV
+set protocols static route 200.161.71.48/31 next-hop 10.141.128.1 distance 1
+set protocols static route 201.0.52.0/23 next-hop 10.141.128.1 description IPTV
+set protocols static route 201.0.52.0/23 next-hop 10.141.128.1 distance 1
 set service dhcp-server disabled false
 set service dhcp-server hostfile-update enable
 set service dhcp-server shared-network-name Internet authoritative enable
@@ -196,22 +182,22 @@ set service dhcp-server static-arp disable
 set service dhcp-server use-dnsmasq disable
 set service dns forwarding cache-size 1000
 set service dns forwarding except-interface pppoe0
-set service dns forwarding name-server 8.8.8.8
-set service dns forwarding name-server 8.8.4.4
+set service dns forwarding name-server 1.1.1.1
+set service dns forwarding name-server 1.0.0.1
 set service gui http-port 80
 set service gui https-port 443
 set service gui older-ciphers enable
-set service nat rule 5010 description 'masquerade for WAN'
+set service nat rule 5010 description 'MASQ WAN'
 set service nat rule 5010 log disable
 set service nat rule 5010 outbound-interface pppoe0
 set service nat rule 5010 protocol all
 set service nat rule 5010 type masquerade
-set service nat rule 5011 description 'masquerade for IPTV'
+set service nat rule 5011 description 'MASQ IPTV'
 set service nat rule 5011 log disable
 set service nat rule 5011 outbound-interface eth0.20
 set service nat rule 5011 protocol all
 set service nat rule 5011 type masquerade
-set service nat rule 5012 description 'masquerade for VoIP'
+set service nat rule 5012 description 'MASQ VoIP'
 set service nat rule 5012 log disable
 set service nat rule 5012 outbound-interface eth0.30
 set service nat rule 5012 protocol all
@@ -228,9 +214,6 @@ set system host-name router
 set system ip override-hostname-ip 10.10.10.1
 set system login user admin authentication plaintext-password 'admin'
 set system login user admin level admin
-set system ntp server 200.160.7.193
-set system ntp server b.st1.ntp.br
-set system ntp server pool.ntp.br
 set system syslog global facility all level notice
 set system syslog global facility protocols level debug
 set system time-zone America/Sao_Paulo
